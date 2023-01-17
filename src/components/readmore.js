@@ -1,0 +1,143 @@
+import React from 'react'
+import styled from 'styled-components'
+import DefaultImage from '../assets/default-img-photo.svg'
+
+const Container = styled.div`
+  width: 100%;
+  padding: 40px 0px 0px 0px;
+  color: ${({ theme }) => theme.textColor.brown};
+
+  p {
+    font-weight: 600;
+    margin-bottom: 15px;
+    ${({ theme }) => theme.fontSize['subtitle-xl']};
+    text-align: center;
+  }
+  ul {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 640px;
+    margin: auto;
+  }
+
+  ${({ theme }) => theme.breakpoint.md} {
+    ul {
+      max-width: 640px;
+      gap: 0px 48px;
+      justify-content: space-between;
+    }
+  }
+
+  ${({ theme }) => theme.breakpoint.md} {
+    p {
+      margin-bottom: 36px;
+      ${({ theme }) => theme.fontSize['content-xl']};
+    }
+  }
+`
+const ReadMoreList = styled.li`
+  list-style: none;
+  width: 100%;
+  max-width: 280px;
+  margin: 0px 24px 24px;
+  cursor: pointer;
+
+  ${({ theme }) => theme.breakpoint.md} {
+    max-width: 276px;
+    margin: 0px;
+    margin-bottom: 36px;
+  }
+`
+
+const ReadMoreImage = styled.div`
+  width: 100%;
+  height: 187px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: all 0.3s ease;
+  }
+  img:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+  }
+  ${({ theme }) => theme.breakpoint.md} {
+    margin-bottom: 16px;
+  }
+  ${({ theme }) => theme.breakpoint.xl} {
+    max-height: 184px;
+    min-height: 0;
+  }
+`
+
+const Title = styled.div`
+  height: 55px;
+  overflow: hidden;
+  font-weight: 400;
+  margin-bottom: 5px;
+  ${({ theme }) => theme.fontSize['content-sm']}
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  ${({ theme }) => theme.breakpoint.md} {
+    height: 80px;
+    -webkit-line-clamp: 3;
+  }
+`
+
+const mock = [
+  {
+    id: 1,
+    title:
+      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」',
+  },
+  {
+    id: 2,
+    title:
+      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」',
+  },
+  {
+    id: 3,
+    title:
+      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」',
+  },
+  {
+    id: 4,
+    title:
+      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」起掛」劉冠廷缺氧卻害怕放棄「起掛」劉冠廷缺氧卻害怕放棄「',
+  },
+]
+
+const readMoreLists = mock?.map((item) => {
+  return (
+    <ReadMoreList key={item.id}>
+      <a
+        href={`https://www.mirrormedia.mg/projects/2022-sea-turtle/`}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <ReadMoreImage>
+          <img src={DefaultImage} alt="" />
+        </ReadMoreImage>
+        <Title>{item.title}</Title>
+      </a>
+    </ReadMoreList>
+  )
+})
+
+export default function ReadMore() {
+  return (
+    <Container>
+      <p>延伸閱讀</p>
+      <ul>{readMoreLists}</ul>
+    </Container>
+  )
+}
