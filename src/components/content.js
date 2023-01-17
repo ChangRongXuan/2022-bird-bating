@@ -7,11 +7,11 @@ import styled from 'styled-components'
 import { Editor, EditorState, convertFromRaw } from 'draft-js'
 //decorators是讓一些一定會有固定樣式的文字透過自己客製化的方法顯示出該文字的固定樣式
 import decorators from './draft/entity-decorator'
-import { atomicBlockRenderer } from './draft/block-redender-fn'
+import { blockRenderer } from './draft/block-redender-fn'
 
 const blockRendererFn = (block) => {
-  const atomicBlockObj = atomicBlockRenderer(block)
-  return atomicBlockObj
+  const blockObj = blockRenderer(block)
+  return blockObj
 }
 
 const Container = styled.div`
