@@ -2,6 +2,7 @@ import { DividerBlock } from './divider'
 import { EmbeddedCodeBlock } from './embedded-code'
 import { ImageBlock } from './image'
 import { MediaBlock } from './media'
+import { SlideShow } from './slideshow'
 import { TableBlock } from './table'
 import styled from 'styled-components'
 import Quote from '../../assets/quote.svg'
@@ -31,7 +32,7 @@ const QuoteContainer = styled.div`
   }
 `
 
-const ListContainer = styled.li`
+const ListContainer = styled.div`
   display: flex;
   align-items: center;
   line-height: 2;
@@ -106,11 +107,14 @@ const AtomicBlock = (props) => {
   switch (entityType) {
     case 'audioLink':
     case 'imageLink':
-    case 'videoLink': {
+    case 'VIDEO': {
       return MediaBlock(entity)
     }
     case 'IMAGE': {
       return ImageBlock(entity)
+    }
+    case 'SLIDESHOW': {
+      return SlideShow(entity)
     }
     case 'EMBEDDEDCODE': {
       return EmbeddedCodeBlock(entity)

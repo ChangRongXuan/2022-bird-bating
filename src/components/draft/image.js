@@ -1,12 +1,6 @@
 import React from 'react' // eslint-disable-line
 import styled from 'styled-components'
 
-// const styles = {
-//   image: {
-//     width: '100%',
-//   },
-// }
-
 const Figure = styled.figure`
   img {
     width: 100%;
@@ -34,7 +28,6 @@ export function ImageBlock(entity) {
   return (
     <Figure>
       <img
-        // style={styles.image}
         src={url}
         // onError={(e) => (e.currentTarget.src = imageFile?.url)}
         alt="description"

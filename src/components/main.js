@@ -49,6 +49,7 @@ export default function Main() {
   const [data, setData] = useState({})
 
   const fetchData = async () => {
+    // const response = await axios('/api/v2/posts/63b64bed19f7611a00e7501a')
     const response = await axios(
       'http://104.199.190.189:8080/posts/63b64bed19f7611a00e7501a'
     )
@@ -58,6 +59,8 @@ export default function Main() {
   useEffect(() => {
     fetchData()
   }, [])
+
+  console.log('main', data)
 
   const updatedTime = new Date(data.updatedAt)
     .toLocaleDateString('zh-TW', {

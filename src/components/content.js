@@ -29,6 +29,11 @@ const Container = styled.div`
     line-height: 32px;
   }
 
+  /* .public-DraftStyleDefault-block {
+    margin-bottom: 40px;
+    outline: 1px solid white;
+  } */
+
   ol > li {
     display: flex;
     align-items: center;

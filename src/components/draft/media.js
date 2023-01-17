@@ -1,3 +1,16 @@
+import styled from 'styled-components'
+
+const Notion = styled.div`
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: justify;
+  ${({ theme }) => theme.breakpoint.xl} {
+    font-size: 16px;
+    font-weight: 500;
+  }
+`
+
 const styles = {
   buttons: {
     marginBottom: 10,
@@ -18,6 +31,7 @@ const styles = {
   },
   media: {
     width: '100%',
+    marginBottom: '15px',
   },
 }
 
@@ -30,22 +44,26 @@ const Image = (props) => {
   return <img src={props.src} style={styles.media} alt={props.alt} />
 }
 
-const Video = (props) => {
-  // eslint-disable-next-line jsx-a11y/media-has-caption
-  return <video controls src={props.src} style={styles.media} />
+const Video = ({ url, title }) => {
+  return (
+    <>
+      <video controls src={url} style={styles.media} />
+      <Notion>{title}</Notion>
+    </>
+  )
 }
 
 export const MediaBlock = (entity) => {
-  const { src } = entity.getData()
+  const { url, title } = entity.getData()
   const type = entity.getType()
 
   let media
   if (type === 'audioLink') {
-    media = <Audio src={src} />
+    media = <Audio src={url} />
   } else if (type === 'imageLink') {
-    media = <Image src={src} alt="" />
-  } else if (type === 'videoLink') {
-    media = <Video src={src} />
+    media = <Image src={url} alt="" />
+  } else if (type === 'VIDEO') {
+    media = <Video url={url} title={title} />
   }
 
   return media
