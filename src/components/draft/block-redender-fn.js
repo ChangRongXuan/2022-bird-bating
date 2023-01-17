@@ -131,7 +131,7 @@ const AtomicBlock = (props) => {
   }
 }
 
-export function atomicBlockRenderer(block) {
+export function blockRenderer(block) {
   const blockType = block.getType()
   switch (blockType) {
     case 'atomic': {
