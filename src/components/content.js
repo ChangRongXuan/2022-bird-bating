@@ -4,10 +4,10 @@ import Immutable from 'immutable'
 
 import { Editor, EditorState, convertFromRaw } from 'draft-js'
 import decorators from './draft/entity-decorator'
-import { blockRenderer } from './draft/block-redender-fn'
+import { atomicBlockRenderer } from './draft/block-redender-fn'
 
 const blockRendererFn = (block) => {
-  const blockObj = blockRenderer(block)
+  const blockObj = atomicBlockRenderer(block)
   return blockObj
 }
 
