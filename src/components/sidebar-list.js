@@ -1,16 +1,51 @@
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import classNames from 'classnames'
+
+import { Editor, EditorState, convertFromRaw } from 'draft-js'
+import decorators from './draft/entity-decorator'
+import { atomicBlockRenderer } from './draft/block-redender-fn'
+
+const blockRendererFn = (block) => {
+  const atomicBlockObj = atomicBlockRenderer(block)
+  return atomicBlockObj
+}
+
+const Container = styled.div`
+  .header-one {
+    ${({ theme }) => theme.fontSize['subtitle-md']};
+    cursor: pointer;
+    font-family: 'PingFang TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.87);
+    margin-bottom: 14px;
+    text-align: left;
+    display: block;
+  }
+
+  .header-two {
+    cursor: pointer;
+    font-family: 'PingFang TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.87);
+    margin-bottom: 14px;
+    text-align: left;
+    display: block;
+  }
+`
 
 const ListWarp = styled.a`
   cursor: pointer;
   margin-bottom: 10px;
   display: inline-block;
   transition-duration: 0.3s;
-  h3 {
-    color: ${({ theme }) => theme.textColor.white};
-    ${({ theme }) => theme.fontSize['subtitle-md']}
-  }
+
   .active {
     text-decoration-line: underline;
     color: ${({ theme }) => theme.textColor.brown};
@@ -18,33 +53,33 @@ const ListWarp = styled.a`
   }
 `
 
-const mock = [
-  { id: 1, title: '突然變殺人凶手 滿腹委屈' },
-  { id: 2, title: '沈大俠有話直說 遭人誤解' },
-  { id: 3, title: '工作中投射缺憾 渴望父愛' },
-  { id: 4, title: '不再蹚司法渾水 專注醫療' },
-]
-
-export default function SidebarList() {
+export default function SidebarList({ data = { blocks: [], entityMap: {} } }) {
   const [activeId, setActiveId] = useState(null)
 
+  const blocksOfHeader = useMemo(() => {
+    return data?.blocks?.filter(
+      (block) => block?.type === 'header-one' || block?.type === 'header-two'
+    )
+  }, [data])
+
   return (
-    <>
-      {mock.map((item) => {
+    <Container>
+      {blocksOfHeader.map((item) => {
         return (
           <ListWarp
-            href={`#${item.id}`}
-            key={item.id}
+            href={`#${item.key}`}
+            key={item.text}
             onClick={() => {
-              setActiveId(item.id)
+              setActiveId(item.key)
             }}
+            className={item.type}
           >
-            <h3 className={classNames({ active: activeId === item.id })}>
-              {item.title}
-            </h3>
+            <p className={classNames({ active: activeId === item.key })}>
+              {item.text}
+            </p>
           </ListWarp>
         )
       })}
-    </>
+    </Container>
   )
 }

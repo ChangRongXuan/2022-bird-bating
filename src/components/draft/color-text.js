@@ -28,5 +28,5 @@ export const colorTextDecorator = {
   component: ColorText,
 }
 
-//TODO: 不太知道這個功能是做什麼的
+//TODO: 不太確定用法
 export const CUSTOM_STYLE_PREFIX_FONT_COLOR = 'FONT_COLOR_'

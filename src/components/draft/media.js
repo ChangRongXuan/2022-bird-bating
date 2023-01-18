@@ -5,6 +5,7 @@ const Notion = styled.div`
   font-size: 12px;
   line-height: 1.6;
   text-align: justify;
+  margin-bottom: 30px;
   ${({ theme }) => theme.breakpoint.xl} {
     font-size: 16px;
     font-weight: 500;

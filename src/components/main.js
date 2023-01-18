@@ -46,21 +46,24 @@ const Footer = styled.div`
 `
 
 export default function Main() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({ blocks: [], entityMap: {} })
 
   const fetchData = async () => {
     // const response = await axios('/api/v2/posts/63b64bed19f7611a00e7501a')
+    // const response = await axios(
+    //   'http://104.199.190.189:8080/posts/63b64bed19f7611a00e7501a'
+    // )
     const response = await axios(
-      'http://104.199.190.189:8080/posts/63b64bed19f7611a00e7501a'
+      '/api/v2/getposts?where=%7B%22slug%22:%22birdbating%22%7D&keep=draft&related=full'
     )
-    setData(response?.data)
+
+    // setData(response?.data)
+    setData(response?.data._items[0])
   }
 
   useEffect(() => {
     fetchData()
   }, [])
-
-  console.log('main', data)
 
   const updatedTime = new Date(data.updatedAt)
     .toLocaleDateString('zh-TW', {
@@ -73,13 +76,29 @@ export default function Main() {
     })
     .replaceAll('/', '.')
 
+  const writers = data?.writers?.map((item) => {
+    return <span key={item._id}>{item.name}</span>
+  })
+
+  const photographers = data?.photographers?.map((item) => {
+    return <span key={item._id}>{item.name}</span>
+  })
+
+  const coworker = data?.extend_byline
+  const content = data?.brief?.draft
+
   return (
     <Container>
-      <Sidebar />
+      <Sidebar data={data?.content?.draft} />
       <ContentWrap>
-        <Brief data={data?.brief?.draft} />
+        <Brief
+          content={content}
+          writers={writers}
+          photographers={photographers}
+          coworker={coworker}
+        />
         <Content data={data?.content?.draft} />
-        <ReadMore />
+        <ReadMore data={data?.relateds} />
       </ContentWrap>
       <Footer>更新時間 / {updatedTime}</Footer>
     </Container>

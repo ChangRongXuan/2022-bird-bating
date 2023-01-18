@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import DefaultImage from '../assets/default-img-photo.svg'
+import React from 'react';
+import styled from 'styled-components';
+import DefaultImage from '../assets/default-img-photo.svg';
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +36,7 @@ const Container = styled.div`
       ${({ theme }) => theme.fontSize['content-xl']};
     }
   }
-`
+`;
 const ReadMoreList = styled.li`
   list-style: none;
   width: 100%;
@@ -45,15 +45,15 @@ const ReadMoreList = styled.li`
   cursor: pointer;
 
   ${({ theme }) => theme.breakpoint.md} {
-    max-width: 276px;
+    max-width: ${(prop) => (prop.maxSize !== '1' ? '276px' : 'none')};
     margin: 0px;
     margin-bottom: 36px;
   }
-`
+`;
 
 const ReadMoreImage = styled.div`
   width: 100%;
-  height: 187px;
+  height: ${(prop) => (prop.maxSize !== '1' ? '187px' : '394px')};
   overflow: hidden;
   margin-bottom: 12px;
   img {
@@ -71,10 +71,10 @@ const ReadMoreImage = styled.div`
     margin-bottom: 16px;
   }
   ${({ theme }) => theme.breakpoint.xl} {
-    max-height: 184px;
+    max-height: ${(prop) => (prop.maxSize !== '1' ? '184px' : '420px')};
     min-height: 0;
   }
-`
+`;
 
 const Title = styled.div`
   height: 55px;
@@ -91,53 +91,31 @@ const Title = styled.div`
     height: 80px;
     -webkit-line-clamp: 3;
   }
-`
+`;
 
-const mock = [
-  {
-    id: 1,
-    title:
-      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」',
-  },
-  {
-    id: 2,
-    title:
-      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」',
-  },
-  {
-    id: 3,
-    title:
-      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」',
-  },
-  {
-    id: 4,
-    title:
-      '【鏡大咖】演消防員救人　劉冠廷缺氧卻害怕放棄「會一起掛」劉冠廷缺氧卻害怕放棄「會一起掛」起掛」劉冠廷缺氧卻害怕放棄「起掛」劉冠廷缺氧卻害怕放棄「',
-  },
-]
+export default function ReadMore({ data = [] }) {
+  const readMoreLists = data?.map((item) => {
+    const url = item.heroImage?.image?.url;
+    return (
+      <ReadMoreList key={item._id} maxSize={data.length}>
+        <a
+          href={`https://www.mirrormedia.mg/story/${item.slug}/`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          <ReadMoreImage>
+            <img src={url ? url : DefaultImage} alt='' />
+          </ReadMoreImage>
+          <Title>{item.title}</Title>
+        </a>
+      </ReadMoreList>
+    );
+  });
 
-const readMoreLists = mock?.map((item) => {
-  return (
-    <ReadMoreList key={item.id}>
-      <a
-        href={`https://www.mirrormedia.mg/projects/2022-sea-turtle/`}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <ReadMoreImage>
-          <img src={DefaultImage} alt="" />
-        </ReadMoreImage>
-        <Title>{item.title}</Title>
-      </a>
-    </ReadMoreList>
-  )
-})
-
-export default function ReadMore() {
   return (
     <Container>
       <p>延伸閱讀</p>
       <ul>{readMoreLists}</ul>
     </Container>
-  )
+  );
 }

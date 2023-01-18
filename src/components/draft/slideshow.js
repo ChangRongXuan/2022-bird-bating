@@ -1,5 +1,4 @@
 import React from 'react'
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 // import required modules
 import { Pagination } from 'swiper'
@@ -13,7 +12,6 @@ const Container = styled.div`
   margin-bottom: 40px;
 `
 export function SlideShow(entity) {
-  //data是一個具有 slideShow 資訊的array
   const slideInfo = entity.getData()
 
   const slides = slideInfo.map((item) => {

@@ -61,7 +61,7 @@ const ToggleButton = styled.div`
     display: none;
   }
 `
-export default function Sidebar() {
+export default function Sidebar({ data = { blocks: [], entityMap: {} } }) {
   const [show, setShow] = useState(false)
 
   return (
@@ -76,7 +76,7 @@ export default function Sidebar() {
         >
           <ToggleSVG />
         </ToggleButton>
-        <SidebarContent show={show} />
+        <SidebarContent show={show} data={data} />
       </ButtonWrapper>
     </SidebarContainer>
   )

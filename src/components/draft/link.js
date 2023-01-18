@@ -23,7 +23,6 @@ function Link(props) {
       href={url}
       target="_blank"
       // rel="noopener noreferrer"
-      onClick={() => console.log(url)}
     >
       {props.children}
     </StyledLink>

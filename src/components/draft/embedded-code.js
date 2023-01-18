@@ -1,18 +1,10 @@
 import React /* eslint-disable-line */, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-const Container = styled.div`
-  /* position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%; */
-  outline: 1px solid white;
-`
-
 export const Block = styled.div`
   position: relative;
+  z-index: 200;
   /* styles for image link */
-  outline: 1px solid yellow;
   img.img-responsive {
     margin: 0 auto;
     max-width: 100%;
@@ -28,12 +20,11 @@ export const Caption = styled.div`
   /* color: #808080; */
   color: white;
   padding: 15px 15px 0 15px;
+  margin-bottom: 25px;
 `
 
 export const EmbeddedCodeBlock = (entity) => {
   const { caption, embeddedCode } = entity.getData()
-  console.log('caption', caption)
-  console.log('embeddedCode', embeddedCode)
   const embedded = useRef(null)
 
   useEffect(() => {
@@ -73,14 +64,13 @@ export const EmbeddedCodeBlock = (entity) => {
       fragment.appendChild(scriptEle)
     })
 
-    console.log('fragment', fragment)
     node.appendChild(fragment)
   }, [embeddedCode])
 
   return (
-    <Container>
+    <>
       <Block ref={embedded} id="eeee" />
       {caption ? <Caption>{caption}</Caption> : null}
-    </Container>
+    </>
   )
 }

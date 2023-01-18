@@ -26,6 +26,7 @@ const Container = styled.div`
     transform: translateX(0px);
     display: flex;
     justify-content: flex-end;
+    padding: 122px 50px;
 
     .content-box {
       max-width: 250px;
@@ -60,7 +61,10 @@ const SocialIcon = styled.div`
   }
 `
 
-export default function SidebarContent({ show }) {
+export default function SidebarContent({
+  show,
+  data = { blocks: [], entityMap: {} },
+}) {
   const [origin, setOrigin] = useState('')
   const [alertShow, setAlertShow] = useState('')
 
@@ -116,7 +120,7 @@ export default function SidebarContent({ show }) {
             <DonateSVG />
             <span>贊助本文</span>
           </DonateButton>
-          <SidebarList />
+          <SidebarList data={data} />
         </div>
       </Container>
       <CopyAlert alertShow={alertShow} />
