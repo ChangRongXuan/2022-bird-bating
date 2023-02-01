@@ -1,5 +1,11 @@
-import React /* eslint-disable-line */, { useEffect, useRef } from 'react'
+import React /* eslint-disable-line */, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
+import { logGAEvent } from '../../utils/analytics'
+import { InView } from 'react-intersection-observer'
 
 export const Block = styled.div`
   position: relative;
@@ -17,7 +23,6 @@ export const Caption = styled.div`
   line-height: 1.43;
   letter-spacing: 0.4px;
   font-size: 14px;
-  /* color: #808080; */
   color: white;
   padding: 15px 15px 0 15px;
   margin-bottom: 25px;
@@ -67,10 +72,26 @@ export const EmbeddedCodeBlock = (entity) => {
     node.appendChild(fragment)
   }, [embeddedCode])
 
+  const [inView, setInView] = useState(false)
+  const [hasSentGa, setHasSentGa] = useState(false)
+
+  const handleGaInview = (isInView) => {
+    setInView(isInView)
+    if (isInView && !hasSentGa) {
+      logGAEvent('Scroll', `scroll to video - ${caption}`)
+      setHasSentGa(true)
+    }
+  }
+
   return (
     <>
-      <Block ref={embedded} id="eeee" />
-      {caption ? <Caption>{caption}</Caption> : null}
+      <InView onChange={handleGaInview}>
+        {({ ref, inView }) => (
+          <div ref={ref}>
+            <Block ref={embedded} />
+          </div>
+        )}
+      </InView>
     </>
   )
 }

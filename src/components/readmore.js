@@ -1,6 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import DefaultImage from '../assets/default-img-photo.svg';
+import React from 'react'
+import styled from 'styled-components'
+import DefaultImage from '../assets/default-img-photo.svg'
+import { logGAEvent } from '../utils/analytics'
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +37,7 @@ const Container = styled.div`
       ${({ theme }) => theme.fontSize['content-xl']};
     }
   }
-`;
+`
 const ReadMoreList = styled.li`
   list-style: none;
   width: 100%;
@@ -49,7 +50,7 @@ const ReadMoreList = styled.li`
     margin: 0px;
     margin-bottom: 36px;
   }
-`;
+`
 
 const ReadMoreImage = styled.div`
   width: 100%;
@@ -74,7 +75,7 @@ const ReadMoreImage = styled.div`
     max-height: ${(prop) => (prop.maxSize !== '1' ? '184px' : '420px')};
     min-height: 0;
   }
-`;
+`
 
 const Title = styled.div`
   height: 55px;
@@ -91,31 +92,35 @@ const Title = styled.div`
     height: 80px;
     -webkit-line-clamp: 3;
   }
-`;
+`
 
 export default function ReadMore({ data = [] }) {
   const readMoreLists = data?.map((item) => {
-    const url = item.heroImage?.image?.url;
+    const url = item.heroImage?.image?.url
     return (
-      <ReadMoreList key={item._id} maxSize={data.length}>
+      <ReadMoreList
+        key={item._id}
+        maxSize={data.length}
+        onClick={() => logGAEvent('Click', `relate-${item.title}`)}
+      >
         <a
           href={`https://www.mirrormedia.mg/story/${item.slug}/`}
-          target='_blank'
-          rel='noreferrer'
+          target="_blank"
+          rel="noreferrer"
         >
           <ReadMoreImage>
-            <img src={url ? url : DefaultImage} alt='' />
+            <img src={url ? url : DefaultImage} alt="" />
           </ReadMoreImage>
           <Title>{item.title}</Title>
         </a>
       </ReadMoreList>
-    );
-  });
+    )
+  })
 
   return (
     <Container>
       <p>延伸閱讀</p>
       <ul>{readMoreLists}</ul>
     </Container>
-  );
+  )
 }

@@ -4,7 +4,9 @@ import ReadMore from './readmore'
 import Content from './content'
 import Brief from './brief'
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { logGAEvent, initGA } from '../utils/analytics'
+import Embedded from './embedded'
 
 const Container = styled.div`
   width: 100%;
@@ -49,20 +51,20 @@ export default function Main() {
   const [data, setData] = useState({ blocks: [], entityMap: {} })
 
   const fetchData = async () => {
-    // const response = await axios('/api/v2/posts/63b64bed19f7611a00e7501a')
+    // // const response = await axios('/api/v2/posts/63b64bed19f7611a00e7501a')
     // const response = await axios(
-    //   'http://104.199.190.189:8080/posts/63b64bed19f7611a00e7501a'
+    //   'https://api.mirrormedia.mg/getposts?where={%22slug%22:%2220230106bus001%22}'
     // )
     const response = await axios(
       '/api/v2/getposts?where=%7B%22slug%22:%22birdbating%22%7D&keep=draft&related=full'
     )
 
-    // setData(response?.data)
     setData(response?.data._items[0])
   }
 
   useEffect(() => {
     fetchData()
+    initGA()
   }, [])
 
   const updatedTime = new Date(data.updatedAt)
@@ -87,6 +89,32 @@ export default function Main() {
   const coworker = data?.extend_byline
   const content = data?.brief?.draft
 
+  // interSectionObserver
+  const footerRef = useRef(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  const callbackFunction = (entries) => {
+    const [entry] = entries
+    setIsVisible(entry.isIntersecting)
+  }
+
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.8,
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options)
+    if (footerRef.current) observer.observe(footerRef.current)
+    if (isVisible) {
+      logGAEvent('Scroll', 'scroll to end')
+    }
+    return () => {
+      if (footerRef.current) observer.unobserve(footerRef.current)
+    }
+  }, [footerRef, options])
+
   return (
     <Container>
       <Sidebar data={data?.content?.draft} />
@@ -100,7 +128,7 @@ export default function Main() {
         <Content data={data?.content?.draft} />
         <ReadMore data={data?.relateds} />
       </ContentWrap>
-      <Footer>更新時間 / {updatedTime}</Footer>
+      <Footer ref={footerRef}>更新時間 / {updatedTime}</Footer>
     </Container>
   )
 }

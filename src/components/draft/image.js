@@ -2,11 +2,16 @@ import React from 'react' // eslint-disable-line
 import styled from 'styled-components'
 
 const Figure = styled.figure`
+  margin-bottom: 50px;
   img {
     width: 100%;
     margin-bottom: 20px;
+  }
 
-    ${({ theme }) => theme.breakpoint.xl} {
+  ${({ theme }) => theme.breakpoint.xl} {
+    margin-bottom: 36px;
+
+    img {
       margin-bottom: 16px;
     }
   }

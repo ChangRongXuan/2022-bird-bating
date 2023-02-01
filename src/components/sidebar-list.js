@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useState, useMemo } from 'react'
 import classNames from 'classnames'
+import { logGAEvent } from '../utils/analytics'
 
 import { Editor, EditorState, convertFromRaw } from 'draft-js'
 import decorators from './draft/entity-decorator'
@@ -53,7 +54,10 @@ const ListWarp = styled.a`
   }
 `
 
-export default function SidebarList({ data = { blocks: [], entityMap: {} } }) {
+export default function SidebarList({
+  data = { blocks: [], entityMap: {} },
+  setShow,
+}) {
   const [activeId, setActiveId] = useState(null)
 
   const blocksOfHeader = useMemo(() => {
@@ -71,6 +75,8 @@ export default function SidebarList({ data = { blocks: [], entityMap: {} } }) {
             key={item.text}
             onClick={() => {
               setActiveId(item.key)
+              logGAEvent('Click', `索引-${item.text}`)
+              setShow(false)
             }}
             className={item.type}
           >

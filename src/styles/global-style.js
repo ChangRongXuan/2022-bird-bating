@@ -21,7 +21,7 @@ export const GlobalStyle = createGlobalStyle`
 body {
   margin: 0;
   font-family: 'Noto Sans TC', sans-serif, 'PingFang TC';
-  background: #FDFAF9;
+  /* background: #31431d; */
 }
 /**
  * Render the main element consistently in IE.

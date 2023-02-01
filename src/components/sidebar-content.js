@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
-import { ReactComponent as DonateSVG } from '../assets/donation.svg'
 import { FaceBookIcon, LineIcon, LinkIcon } from './icons/social-icons'
 import SidebarList from './sidebar-list'
 import CopyAlert from './copy-alert'
@@ -16,9 +15,13 @@ const Container = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.backgroundColor.darkGrey};
   visibility: ${(prop) => (prop.show ? 'visible' : 'hidden')};
-  padding: 122px 24px;
+  padding: 80px 11px;
   transform: ${(prop) =>
     prop.show ? 'translateX(0px)' : 'translateX(-235px)'};
+
+  ${({ theme }) => theme.breakpoint.md} {
+    padding: 122px 27px;
+  }
 
   ${({ theme }) => theme.breakpoint.xl} {
     background-color: transparent;
@@ -33,19 +36,6 @@ const Container = styled.div`
     }
   }
 `
-const DonateButton = styled.button`
-  background: ${({ theme }) => theme.backgroundColor.black};
-  border-radius: 32px;
-  color: ${({ theme }) => theme.textColor.white};
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-
-  svg {
-    margin-right: 5px;
-  }
-`
 
 const SocialIcon = styled.div`
   display: none;
@@ -54,7 +44,7 @@ const SocialIcon = styled.div`
     display: inline-block;
     width: 100px;
     display: flex;
-    margin-bottom: 13px;
+    margin-bottom: 25px;
     svg {
       margin-right: 8px;
     }
@@ -64,6 +54,7 @@ const SocialIcon = styled.div`
 export default function SidebarContent({
   show,
   data = { blocks: [], entityMap: {} },
+  setShow,
 }) {
   const [origin, setOrigin] = useState('')
   const [alertShow, setAlertShow] = useState('')
@@ -116,11 +107,7 @@ export default function SidebarContent({
       <Container show={show}>
         <div className="content-box">
           <SocialIcon>{shareIcons}</SocialIcon>
-          <DonateButton>
-            <DonateSVG />
-            <span>贊助本文</span>
-          </DonateButton>
-          <SidebarList data={data} />
+          <SidebarList data={data} setShow={setShow} />
         </div>
       </Container>
       <CopyAlert alertShow={alertShow} />

@@ -1,8 +1,8 @@
 import ReactGA from 'react-ga'
 
 export const initGA = () => {
-  // ReactGA.initialize('UA-83609754-1'); 這邊放代碼
-  ReactGA.initialize('UA-83609754')
+  // ReactGA.initialize('UA-83609754-1') //production
+  ReactGA.initialize('UA-83609754-2') //dev
 }
 
 export const logGAEvent = (action = '', label = '') => {
@@ -10,7 +10,7 @@ export const logGAEvent = (action = '', label = '') => {
     ReactGA.event({
       action,
       label,
-      category: '2022BirdBating',
+      category: 'Projects',
     })
   }
 }

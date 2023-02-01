@@ -1,14 +1,13 @@
-import { useMemo, useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
-import Immutable from 'immutable'
 
 import { Editor, EditorState, convertFromRaw } from 'draft-js'
 import decorators from './draft/entity-decorator'
 import { atomicBlockRenderer } from './draft/block-redender-fn'
 
 const blockRendererFn = (block) => {
-  const blockObj = atomicBlockRenderer(block)
-  return blockObj
+  const atomicBlockObj = atomicBlockRenderer(block)
+  return atomicBlockObj
 }
 
 const Container = styled.div`
@@ -55,20 +54,18 @@ const Container = styled.div`
 `
 
 export default function Content({ data = { blocks: [], entityMap: {} } }) {
-
+  //有空白格的部分都加上''處理
   const blocksWithoutEmptyQuote = useMemo(() => {
     return data.blocks.filter(
       (block) => block.type !== 'blockquote' || block.text.replace(/\s/g, '')
     )
   }, [data])
 
-  //contentState = contentBlock + entityMap
   const contentState = convertFromRaw({
     ...data,
     blocks: blocksWithoutEmptyQuote,
   })
 
-  // editorState = 儲存在編輯器中的所有內容(只會有一個editorState)
   const editorState = EditorState.createWithContent(contentState, decorators)
 
   return (

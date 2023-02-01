@@ -22,7 +22,7 @@ function Link(props) {
     <StyledLink
       href={url}
       target="_blank"
-      // rel="noopener noreferrer"
+      rel="noopener noreferrer"
     >
       {props.children}
     </StyledLink>
